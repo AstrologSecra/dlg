@@ -24,7 +24,7 @@ class UtilityInstallerApp(QMainWindow):
         # Поиск
         search_layout = QHBoxLayout()
         self.search_bar = QLineEdit()
-        self.search_bar.setPlaceholderText("Поиск по названию утилиты")
+        self.search_bar.setPlaceholderText("Search by utility name")
         self.search_bar.textChanged.connect(self.filter_utilities)
         search_layout.addStretch()
         search_layout.addWidget(self.search_bar)
@@ -35,7 +35,7 @@ class UtilityInstallerApp(QMainWindow):
 
         # Левая часть: дерево утилит
         self.tree_widget = QTreeWidget()
-        self.tree_widget.setHeaderLabels(["Утилиты"])
+        self.tree_widget.setHeaderLabels(["Utilities"])
         self.populate_tree_widget()
         splitter.addWidget(self.tree_widget)
 
@@ -78,16 +78,36 @@ if __name__ == "__main__":
         "Python3 base": {
             "Git": "sudo apt install git -y",
             "Python3": "sudo apt install python3 -y",
-	    "Python3-pip": "sudo apt install python3-pip -y"
+            "Python3-pip": "sudo apt install python3-pip -y"
         },
         "Web": {
             "npm": "sudo apt install npm -y",
             "TypeScript": "sudo npm install -g typescript",
-	    "Apache2": "sudo apt install apache2"
+            "Apache2": "sudo apt install apache2",
+            "Node.js": "sudo apt install nodejs -y"
+        },
+        "IDE": {
+            "vim": "sudo apt install vim -y",
+            "Emacs": "sudo apt install emacs -y",
+            "Nano": "sudo apt install nano -y",
+            "Geany": "sudo apt install geany -y",
+            "Jed": "sudo apt install jed -y"
+        },
+        "C-like languages": {
+            "GCC": "sudo apt install gcc -y",
+            "G++": "sudo apt install g++ -y",
+            "Clang": "sudo apt install clang -y",
+            "Make": "sudo apt install make -y",
+            "C#": "sudo apt install mono-complete -y"
         }
     }
 
+    # Сортировка категорий и команд
+    sorted_categories = dict(sorted(categories.items()))
+    for category in sorted_categories:
+        sorted_categories[category] = dict(sorted(sorted_categories[category].items()))
+
     app = QApplication(sys.argv)
-    window = UtilityInstallerApp(categories)
+    window = UtilityInstallerApp(sorted_categories)
     window.show()
     sys.exit(app.exec_())
